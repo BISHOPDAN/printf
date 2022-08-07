@@ -1,331 +1,94 @@
-![](https://www.holbertonschool.com/holberton-logo.png)
-
-## printf()
-The printf project is a collaboration between DANIEL SUCCESSFUL and AHMED ABDIRAHMAN actual students of Software Engineering at ALX Holberton School, were a function named "_printf" imitates the actual "printf" command located in the stdio.h library. It contains some of the basic features and functions found in the manual 3 of "printf".
+# ALX Software Enginering Printf Team Project
+This team project is a custom made printf function for the C programming language called \_printf. It has been optimized to take various inputs and optional arguments based exactly on how the standard library function printf works. We submitted this as part of the ALX software engineering course requirement for grading.
 
-_printf() is a function that performs formatted output conversion and print data. Its prototype is the following:
+## **Synopsis**
+This function **\_printf()** writes output to stdout, the standard output stream with the format and options without making use of any of the standard library files. It was written to use a local buffer of 1024 bytes when printing although it can print larger sets of data.
 
-	int _printf(const char *format, ...)
+The \_printf() function returns the total number of characters printed to the stdout(excluding the null byte at the end of strings) after a successful execution.
 
-Where **format** contains the string that is printed. As _printf() is variadic function, it can receives n arguments that replace by n tags written inside the string.
+If an output error is encountered, a negative value of -1 is returned.
 
-The format tags prototype is the following:
+The prototype of this function is:  **int _printf(const char *format, ...);***
 
-	%[flags][length]specifier
-	
-If the program runs successfully, the **return value** is the amount of chars printed.
-	
-| Specifier | Output |
-| ------------- | ------------- |
-| c  | Character  |
-| d or i | Signed decimal integer |
-| s  | String of characters  |
-| b  | Signed binary  |
-| o  | Signed octal  |
-| u  | Unsigned integer  |
-| x  | Unsigned hexadecimal  |
-| X  | Unsigned hexadecimal (uppercase)  |
-| p  | Pointer address  |
-| r  | Reverse string of characters |
-| R  | ROT13 translation of string |
-| S  | String with special chars replaced by their ASCII value  |
-| %  | Character  |
+This means that it has one mandatory format argument, and an extra number of arguments that can be none, or many.
 
-| Flags | Description | Specifiers |
-| ------------- | ------------- | ------------- | 
-| +  | Prints a plus sign (+) when the argument is a positive number. In other case, prints a minus sign (-). | i, d |
-| (space) | Prints a blank space if the argument is a positive number | i, d |
-| #  | Prints 0, 0x and 0X for o, x and X specifiers, respectively. It doesn't print anything if the argument is zero | o, x, X |
+**Format of the format string**
 
-| Length | Description | Specifiers |
-| ------------- | ------------- | ------------- | 
-| l | Prints a long int or unsigned long int | i, d, o, u, x and X |
-| h | Prints a short int or unsigned short int | i, d, o, u, x and X |
+The format string is a character string starting and ending with double quotes. The format string is composed of zero or more directives; ordinary characters (not %), and conversion specifications, each of which results in fetching zero or more subsequent arguments. 
 
-------------
+Each conversion specification is introduced by the character **%** and ends with a **conversion specifier**. In between there may be (in this order):
 
-## Examples
+> Zero or more **flags**
+>
+> An optional field **width**
+>
+> An optional **precision** modifier
+>
+> An optional **length** modifier
 
-1. Printing the string of chars "Hello, ALX Holberton":
-	+ Use: `_printf("Hello Hol%s.", "berton");`
-	+ Output: `Hello ALX Holberton.`
-	
-2. Printing an integer number:
-	+ Use: `_printf("10 + 10 is equal to %d.", 20);`
-	+ Output: `10 + 10 is equal to 20.`
-	
-3. Printing a binary, octal and hexadecimal:
-	+ Use: `_printf("10 in binary is [%b], in octal is [%o] and in hexadecimal is [%x]", 5, 5, 5);`
-	+ Output: `10 in binary is [1010], in octal is [12] and in hexadecimal is [A]`
-	
-4. Printing a string codified in ROT13:
-	+ Use: `_printf("Hello in ROT13 is %R", "Hello");`
-	+ Output: `Hello in ROT13 is Urybb`
+**The flag characters**
 
-Using flags and length tags:
-
-5. Printing the string of chars "Hello, ALX Holberton":
-	+ Use: `_printf("2 * 2 = %+d and 5 * -5 = %+i", 4, -25);`
-	+ Output: `2 * 2 = +4 and 5 * -5 = -25`
-	
-6. Printing a long integer number and short integer number:
-	+ Use: `_printf("1 million as a long int is %ld, but as a short int is %hd", 1000000, 1000000);`
-	+ Output: `1 million as a long int is 1000000, but as a short int is 16960`
-
+|**Flag**| Description  |
+|--|--|
+|**#**| For **o** conversions the first character of the output string is made zero (by prefixing a 0 if it was not zero already).  For **x** and **X** conversions, a nonzero result has the string "**0x**" or "**0X**" respectively added. |
+|**0**| (Not implemented yet) The  value should be zero padded. For **d**, **i**, **o**, **u**, **x**, and **X** the converted value is padded on the left with zeros. If the 0 and **-** flags both appear,the **0** flag is ignored. If a precision is given with a numeric conversion, the **0** flag is ignored.|
+|**-**|(Minus sign, not implemented yet) The converted value is to be left adjusted on the field boundary, (Default is right justification) and  padded  with  blanks  in  the right rather than on the left with blanks or zeros. This flag overrides **0** if both are given.|
+|' '| (Blank Space) The argument is padded with a single blank space before a positive number or empty string produced by a signed conversion.|
+|**+**| A sign (+ or -) should always be placed before a number produced with a signed conversion.  By default, only negative numbers have this sign.|
 
-------------
+**The field width**
 
-## File Functions
+An  optional decimal digit string (with nonzero first digit) specifying a minimum field width.  If  the  converted  value  has  fewer characters  than  the field width, it will be padded with spaces on the left if the flag - is not present, and on the right  if  it  is present.  A character * can be used instead of a decimal string. In this case, an argument passed to the function will be taken as  the width value.
 
-### _printf.c
-Own Printf Function Tha Performs Formatted Output Conversion And Print Data.
-
-------------
+    printf("%5d", num);
 
-### main.h
-Header File Were All Prototypes Are Saved.
+or
 
-------------
+	printf("%*d", width, num);
 
-### get_print_func.c
-Pointer To A Function That Selects The Correct Function To Perform The Operation.
+**The precision**
 
-------------
+ An  optional  precision,  in  the  form  of a period ('.')  followed by an optional decimal digit string.  A negative precision is taken  as  if  the precision were omitted.  This gives the minimum number of digits to appear for d, i, o, u, x, and X conversions,  or the  maximum  number of characters to be printed from a string for s and S conversions. A character * can be used instead of a  decimal string. In this case, an argument passed to the function will be taken as the precision value.
 
-### print_buf.c
-Function That Prints The Buffer.
+    printf("%.3d", num);
 
-------------
+  or
 
-### handl_buf.c
-Function That Concatenates The Buffer Characters.
+    printf("%.*d", precision, num);
 
-------------
+**The length modifiers**
 
-### print_chr.c
-Function That Writes The Character C To Stdout.
-```c
-/* Indetifier : %c */
-```
+|Modifier| Description |
+|--|--|
+|**l**| An integer conversion to a **long int** or **unsigned long int** argument.  |
+|**h**| An integer conversion to a **short int** or **unsigned short int** argument. |
 
-------------
+**The conversion specifier**
 
-### print_str.c
-Function That Writes The String To Stdout.
-```c
-/* Indetifier : %s */
-```
+|Specifier| Description |
+|--|--|
+|**d, i**|The argument **int** is converted to a signed decimal notation. If precision is present,it gives the minimum number of digits that must appear; if the converted value requires fewer digits, then it is padded with zeros on the left. Default precision is 1.|
+|**o, u, x, X**|The argument is converted to unsigned octal (**o**), unsigned decimal (**u**), or unsigned hexamedical (**x** and **X**) notation. The letters abcdef are used for x conversion and the letters ABCDEF are used for X conversion. If precision is present, it will give  the  minimum  number  of  digits  that  must appear; if the converted value requires fewer digits, then it will be padded with zeros. By default the precision is 1.  |
+|**c**|The  int argument is converted to an unsigned char and the resulting character is written. The representation of characters is based off the ASCII coding.|
+|**s**|The argument received is expected to be a pointer type char * to an array of characters.  Characters from this array are printed up  to  (but  not including) a null byte  (**'\0'**).  If precision is specified, then this will determine how many characters are taken into account for printing.|
+|**p**|A void * pointer argument is printed as hexadecimal in lower caps representing an adress in memory.|
+|**%**|A  ' **%** ' character is written and no conversion is made. The specification is as follows: **%%**. |
+|**b**|The argument is converted to an unsigned int value and then operated to get its binary representation (base 2).|
+|**S**| The  argument  received  is expected to be a pointer type char * to an array of characters.  Characters from this array are printed up to (but not including) a null byte  ('\0').  Non printable characters (0 < ASCII value < 32 or >= 127) are printed this way: \x, followed by  the  ASCII  code value in hexadecimal (upper case - always 2 characters). |
+|**r**|The  argument received is expected to be a pointer type char * to an array of characters.  Characters from this array are printed in reverse order up to (but not including) a null byte  ('\0').  |
+|**R**|The argument received is expected to be a pointer type char * to an array of characters.  Characters from this array  are  encoded  to  ROT13  and printed in order up to (but not including a null byte  ('\0').  |
 
-------------
+# Getting Started
 
-### print_int.c
-Function That Prints An Integer.
-```c
-/* Indetifier : %i or %d */
-```
+These instructions will get you a copy of the project up and running on your local machine (Linux distro) for development and testing purposes.
 
-------------
+## **Installing**
 
-### print_bnr.c
-Function That Prints Decimal In Binary.
-```c
-/* Indetifier : %b */
-```
+You will need to clone the repository of the project from Github. This will contain the _printf function and all of its dependencies. No main.c file will be provided for testing, so you will need to create one.
 
-------------
+    git clone https://github.com/ehoneahobed/printf.git
 
-### print_oct.c
-Function That Prints Decimal In Octal.
-```c
-/* Indetifier : %o */
-```
+After cloning the repository you will have a folder called printf. In here there will be several files that allow the function to work.
 
-------------
-
-### print_hex.c
-Function That Prints Decimal In Hexadecimal.
-```c
-/* Indetifier : %x */
-```
-
-------------
-
-### print_upx.c
-Function That Prints Decimal In Uppercase Hexadecimal.
-```c
-/* Indetifier : %X */
-```
-
-------------
-
-### print_usr.c
-Function That Prints A String And Values Of Non-Printed Chars.
-```c
-/* Indetifier : %S */
-```
-
-------------
-
-### print_unt.c
-Function That Prints An Unsigned Integer.
-```c
-/* Indetifier : %u */
-```
-
-------------
-
-### print_rev.c
-Function That Writes The String To Stdout In Reverse.
-```c
-/* Indetifier : %r */
-```
-
-------------
-
-### print_rot.c
-Function That Writes The String To Stdout In Rot13.
-```c
-/* Indetifier : %R */
-```
-
-------------
-
-### print_add.c
-Function That Prints The Address Of An Input Variable.
-```c
-/* Indetifier : %p */
-```
-
-------------
-
-### print_long_oct.c
-Function That Prints Long Decimal Number In Octal.
-```c
-/* Indetifier : %lo */
-```
-
-------------
-
-### print_long_hex.c
-Function That Prints Long Decimal Number In Hexadecimal.
-```c
-/* Indetifier : %lx */
-```
-
-------------
-
-### print_long_int.c
-Function That Prints  A Long Integer.
-```c
-/* Indetifier : %li */
-```
-
-------------
-
-### print_long_upx.c
-Function That Prints A Long Decimal In Uppercase Hexadecimal.
-```c
-/* Indetifier : %lX */
-```
-
-------------
-
-### print_long_unt.c
-Function That Prints A Long Unsigned Integer.
-```c
-/* Indetifier : %lu */
-```
-
-------------
-
-### print_short_oct.c
-Function That Prints Short Decimal Number In Octal.
-```c
-/* Indetifier : %ho */
-```
-
-------------
-
-### print_short_hex.c
-Function That Prints Short Decimal Number In Hexadecimal.
-```c
-/* Indetifier : %hx */
-```
-
-------------
-
-### print_short_int.c
-Function That Prints  A Short Integer.
-```c
-/* Indetifier : %hi */
-```
-
-------------
-
-### print_short_upx.c
-Function That Prints A Short Decimal In Uppercase Hexadecimal.
-```c
-/* Indetifier : %hX */
-```
-
-------------
-
-### print_short_unt.c
-Function That Prints A Short Unsigned Integer.
-```c
-/* Indetifier : %hu */
-```
-
-------------
-
-### print_num_hex.c
-Function That Print A Number In Hexadecimal Begining With 0 And x.
-```c
-/* Indetifier : %#x */
-```
-
-------------
-
-### print_num_oct.c
-Function That Prints A Number In Octal Begining With 0 And o.
-```c
-/* Indetifier : %#o */
-```
-
-------------
-
-### print_num_upx.c
-Function That Prints A Number In Uppercase Hexadecimal.
-```c
-/* Indetifier : %#X */
-```
-
-------------
-
-### print_plus_int.c
-Function That Prints An Integer With Plus Symbol.
-```c
-/* Indetifier : %+i */
-```
-
-------------
-
-### print_space_int.c
-Function That Prints An Integer Begining With 0 And u.
-```c
-/* Indetifier : % i */
-```
-
-------------
-
-### ev_print_func.c
-Function That Returns The Amount Of Indetifiers.
-
-------------
-
-### Authors
-Diego Lopez and Luis Chaparro.
-
-------------
-
-### End
+```Submitted by```
+```Ehoneah OBED and Hakeem BADEJO```
